@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const { PORT } = require('./config/serverConfig');
 const { sendBasicEmail } = require('./services/email-service');
+const cron = require('node-cron');
 
 
 const startServer = () => {
@@ -16,10 +17,13 @@ const startServer = () => {
 		console.log(`server started on PORT : ${PORT}`);
 		sendBasicEmail(
 			'Support <support@gmail.com>',
-			'singhvivekkumar309@gmail.com',
+			'3098usinghvivekkumar@gmail.com',
 			'testing service',
 			'testing reminder service for airline booking system'
 		);
+		cron.schedule('10 0 * * * *', () => {
+			console.log('running a task every two minutes');
+		});
 	})
 
 }
