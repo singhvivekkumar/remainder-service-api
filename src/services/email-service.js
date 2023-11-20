@@ -15,12 +15,14 @@ class EmailService {
 				subject: mailSubject,
 				text: mailBody,
 			}
-			const response = await sender.sendMail(composeMail, (error, info)=> {
+			const response = await sender.sendMail(composeMail, async (error, data)=> {
+				//This callback known as **errorfirstcallback** beacasue it take first parameter as error
 				if (error) {
 					throw error;
 				}
-				if (info) {
-					console.log(info);
+				if (data) {
+					console.log(data);
+					// await this.updateTicket()
 				}
 			})
 			// console.log(response);
@@ -49,6 +51,16 @@ class EmailService {
 			}
 			const notification = await this.ticketRepository.create(data);
 			return notification;
+		} catch (error) {
+			console.log("something went wrong in service layer");
+			throw error;
+		}
+	}
+
+	async updateTicket(ticketId, data) {
+		try {
+			const response = await this.ticketRepository.update(ticketId, data);
+			return response;
 		} catch (error) {
 			console.log("something went wrong in service layer");
 			throw error;

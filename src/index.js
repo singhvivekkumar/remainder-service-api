@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { PORT } = require('./config/serverConfig');
 const apiV1Router = require('./routes/index');
 const { EmailService } = require('./services/index');
+const { job } = require('./utils/scheduleJob');
 
 const startServer = () => {
 	
@@ -22,9 +23,10 @@ const startServer = () => {
 		// 	'testing service',
 		// 	'testing reminder service for airline booking system'
 		// );
-		const response = new EmailService();
-		const res = await response.fetchPendingEmail();
-		console.log(res);
+		// const response = new EmailService();
+		// const res = await response.fetchPendingEmail();
+		const job2min = await job();
+		console.log(job2min);
 
 
 		
