@@ -2,9 +2,8 @@ const express = require('express');
 const bodyParser = require('body-parser');
 
 const { PORT } = require('./config/serverConfig');
-const { sendBasicEmail } = require('./services/email-service');
-const cron = require('node-cron');
-
+const apiV1Router = require('./routes/index');
+const { EmailService } = require('./services/index');
 
 const startServer = () => {
 	
@@ -13,19 +12,23 @@ const startServer = () => {
 	app.use(bodyParser.json());
 	app.use(bodyParser.urlencoded({ extended: true }));
 
-	app.listen(PORT, ()=> {
-		console.log(`server started on PORT : ${PORT}`);
-		sendBasicEmail(
-			'Support <support@gmail.com>',
-			'3098usinghvivekkumar@gmail.com',
-			'testing service',
-			'testing reminder service for airline booking system'
-		);
-		cron.schedule('10 0 * * * *', () => {
-			console.log('running a task every two minutes');
-		});
-	})
+	app.use('/api',apiV1Router);
 
+	app.listen(PORT, async ()=> {
+		console.log(`server started on PORT : ${PORT}`);
+		// sendBasicEmail(
+		// 	'Support <support@gmail.com>',
+		// 	'309singhvivekkumar@gmail.com',
+		// 	'testing service',
+		// 	'testing reminder service for airline booking system'
+		// );
+		const response = new EmailService();
+		const res = await response.fetchPendingEmail();
+		console.log(res);
+
+
+		
+	})
 }
 
 startServer();
