@@ -25,8 +25,8 @@ const startServer = () => {
 		// );
 		// const response = new EmailService();
 		// const res = await response.fetchPendingEmail();
-		const job2min = await job();
-		console.log(job2min);
+		// const job2min = await job();
+		// console.log(job2min);
 
 
 		
