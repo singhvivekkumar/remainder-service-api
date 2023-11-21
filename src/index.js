@@ -1,12 +1,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const { PORT } = require('./config/serverConfig');
+const { PORT, BINDING_KEY } = require('./config/serverConfig');
 const apiV1Router = require('./routes/index');
-const { EmailService } = require('./services/index');
-const { job } = require('./utils/scheduleJob');
+const { createChannel, subscribeMessage } = require('./utils/messageQueue');
 
-const startServer = () => {
+const startServer = async () => {
 	
 	const app = express();
 
@@ -15,14 +14,19 @@ const startServer = () => {
 
 	app.use('/api',apiV1Router);
 
+	const channel = await createChannel();
+	await subscribeMessage(channel, undefined, BINDING_KEY);
+
 	app.listen(PORT, async ()=> {
 		console.log(`server started on PORT : ${PORT}`);
+
 		// sendBasicEmail(
 		// 	'Support <support@gmail.com>',
 		// 	'309singhvivekkumar@gmail.com',
 		// 	'testing service',
 		// 	'testing reminder service for airline booking system'
 		// );
+
 		// const response = new EmailService();
 		// const res = await response.fetchPendingEmail();
 		// const job2min = await job();
