@@ -66,6 +66,16 @@ class EmailService {
 			throw error;
 		}
 	}
+
+	async recevingQueueData(data) {
+		try {
+			const parseData = JSON.parse(data);
+			console.log("data in service layer",parseData);
+		} catch (error) {
+			console.log("something went wrong in service layer");
+			throw error;
+		}
+	} 
 }
 
 

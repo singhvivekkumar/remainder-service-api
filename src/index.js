@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const { PORT, BINDING_KEY } = require('./config/serverConfig');
 const apiV1Router = require('./routes/index');
 const { createChannel, subscribeMessage } = require('./utils/messageQueue');
+const { EmailService } = require('./services');
 
 const startServer = async () => {
 	
@@ -15,7 +16,8 @@ const startServer = async () => {
 	app.use('/api',apiV1Router);
 
 	const channel = await createChannel();
-	await subscribeMessage(channel, undefined, BINDING_KEY);
+	const emailService = new EmailService();
+	await subscribeMessage(channel, emailService.recevingQueueData, BINDING_KEY);
 
 	app.listen(PORT, async ()=> {
 		console.log(`server started on PORT : ${PORT}`);

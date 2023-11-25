@@ -25,6 +25,7 @@ const subscribeMessage = async (channel, service, binding_key) => {
 			console.log(msg.content.toString());
 			const message =JSON.parse(msg.content.toString()) ;
 			await console.log(message.message);
+			service(msg.content);
 			// acknowledge the message
 			channel.ack(msg);
 		})
