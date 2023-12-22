@@ -22,10 +22,10 @@ const subscribeMessage = async (channel, service, binding_key) => {
 
 		channel.consume(applicationQueue.queue, async (msg) => {
 			console.log('recevied data');
-			console.log(msg.content.toString());
-			const message =JSON.parse(msg.content.toString()) ;
-			await console.log(message.message);
-			service(msg.content);
+			// console.log(msg.content.toString());
+			const contentData =JSON.parse(msg.content) ;
+			// console.log(contentData);
+			await service(contentData);
 			// acknowledge the message
 			channel.ack(msg);
 		})

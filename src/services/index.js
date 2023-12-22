@@ -1,3 +1,4 @@
 module.exports = {
-	EmailService: require('./email-service')
+	EmailService: require('./email-service'),
+	RecevingService: require('./receving-service')
 }

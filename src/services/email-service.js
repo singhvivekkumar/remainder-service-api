@@ -47,12 +47,12 @@ class EmailService {
 		try {
 			console.log(data.notificationTime, new Date());
 			if (data.notificationTime < new Date()) {
-				throw { error : "time should be less than current time"};
+				throw { error : "time should be greater than current time"};
 			}
 			const notification = await this.ticketRepository.create(data);
 			return notification;
 		} catch (error) {
-			console.log("something went wrong in service layer");
+			console.log("something went wrong in createNotification() of service layer");
 			throw error;
 		}
 	}
@@ -67,15 +67,18 @@ class EmailService {
 		}
 	}
 
-	async recevingQueueData(data) {
-		try {
-			const parseData = JSON.parse(data);
-			console.log("data in service layer",parseData);
-		} catch (error) {
-			console.log("something went wrong in service layer");
-			throw error;
-		}
-	} 
+	// async recevingQueueData(data) {
+	// 	try {
+	// 		const parseData = (data);
+	// 		console.log("data in service layer",parseData);
+	// 		const service = new EmailService();
+	// 		const notificationCall = await service.createNotification(parseData);
+	// 		return notificationCall;
+	// 	} catch (error) {
+	// 		console.log("something went wrong in recevingQueueData() of service layer");
+	// 		throw error;
+	// 	}
+	// } 
 }
 
 
